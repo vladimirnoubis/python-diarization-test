@@ -69,7 +69,7 @@ def speech_to_text(
     diarization = diarization_pipeline(
         {"waveform": waveform, "sample_rate": sample_rate},
         # min_speakers=4, max_speakers=6
-        num_speakers=5,
+        # num_speakers=5,
     )
 
     time_diarization_end = time.time()
