@@ -27,27 +27,13 @@ def speech_to_text(
     prompt: str = "",
     language: str = None,
 ):
-    """
-    Glavna funkcija koja vrši transkripciju i diarizaciju.
-
-    Args:
-        audio_file_wav (str): Putanja do konvertovanog WAV audio fajla (16kHz, mono).
-        whisper_model (WhisperModel): Učitan faster-whisper model.
-        diarization_pipeline (Pipeline): Učitan pyannote.audio pipeline.
-        num_speakers (int, optional): Broj govornika. Ako je None, automatski se detektuje.
-        prompt (str, optional): Početni prompt za model.
-        language (str, optional): Oznaka jezika (npr. 'sr', 'en'). Ako je None, automatski se detektuje.
-
-    Returns:
-          tuple: Sadrži (listu segmenata, detektovan broj govornika, detektovan jezik).
-    """
     time_start = time.time()
 
     # 1. Transkripcija sa faster-whisper
     print("Početak transkripcije...")
     options = dict(
         language=language,
-        beam_size=7,
+        beam_size=10,
         vad_filter=True,
         vad_parameters=VadOptions(
             max_speech_duration_s=20,
@@ -210,7 +196,9 @@ def main():
     print("Učitavanje modela... Ovo može potrajati.")
     start = time.time()
     try:
-        whisper_model = WhisperModel("large-v3", device="cuda", compute_type="float16")
+        whisper_model = WhisperModel(
+            "large-v3-turbo", device="cuda", compute_type="float16"
+        )
         diarization_pipeline = Pipeline.from_pretrained(
             "pyannote/speaker-diarization-community-1", token=hf_token
         ).to(torch.device("cuda"))
