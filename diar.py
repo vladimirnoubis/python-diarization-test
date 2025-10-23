@@ -36,7 +36,7 @@ def speech_to_text(
         beam_size=6,
         vad_filter=True,
         vad_parameters=VadOptions(
-            max_speech_duration_s=30,
+            max_speech_duration_s=20,
             min_speech_duration_ms=500,
             speech_pad_ms=200,
             threshold=0.2,
