@@ -246,10 +246,6 @@ def main():
             ]
         )
 
-        temp_128kbps_file = "temp_standardized.mp3"
-        final_wav_file = temp_wav_file  # Vaš finalni WAV fajl za Whisper
-
-        # Naredba za drugi korak
         subprocess.run(
             [
                 "ffmpeg",
@@ -261,12 +257,12 @@ def main():
                 "1",  # Osiguraj mono kanal
                 "-c:a",
                 "pcm_s16le",  # Formatiraj u standardni WAV
-                final_wav_file,
+                temp_wav_file,
             ]
         )
 
         segments, num_speakers, language = speech_to_text(
-            final_wav_file,
+            temp_wav_file,
             whisper_model,
             diarization_pipeline,
             args.num_speakers,
