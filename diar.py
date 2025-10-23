@@ -33,7 +33,7 @@ def speech_to_text(
     print("Početak transkripcije...")
     options = dict(
         language=language,
-        beam_size=8,
+        beam_size=6,
         vad_filter=True,
         vad_parameters=VadOptions(
             max_speech_duration_s=30,
@@ -196,9 +196,7 @@ def main():
     print("Učitavanje modela... Ovo može potrajati.")
     start = time.time()
     try:
-        whisper_model = WhisperModel(
-            "large-v3-turbo", device="cuda", compute_type="float16"
-        )
+        whisper_model = WhisperModel("large-v3", device="cuda", compute_type="float16")
         diarization_pipeline = Pipeline.from_pretrained(
             "pyannote/speaker-diarization-community-1", token=hf_token
         ).to(torch.device("cuda"))
