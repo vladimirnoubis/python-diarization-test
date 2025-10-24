@@ -215,36 +215,38 @@ def main():
         original_audio_file = args.audio_file
         temp_128kbps_file = "temp_standardized.mp3"
 
-        # Naredba za prvi korak
-        subprocess.run(
-            [
-                "ffmpeg",
-                "-i",
-                original_audio_file,
-                "-b:a",
-                "128k",  # Forsiraj audio bitrate na 128 kbps
-                "-ar",
-                "16000",  # Postavi sample rate na 16000 Hz
-                "-ac",
-                "1",  # Postavi mono kanal
-                "-y",  # Prepiši fajl ako postoji
-                temp_128kbps_file,
-            ]
-        )
+        # # Naredba za prvi korak
+        # subprocess.run(
+        #     [
+        #         "ffmpeg",
+        #         "-i",
+        #         original_audio_file,
+        #         "-b:a",
+        #         "128k",  # Forsiraj audio bitrate na 128 kbps
+        #         "-ar",
+        #         "16000",  # Postavi sample rate na 16000 Hz
+        #         "-ac",
+        #         "1",  # Postavi mono kanal
+        #         "-y",  # Prepiši fajl ako postoji
+        #         temp_128kbps_file,
+        #     ]
+        # )
 
         subprocess.run(
             [
                 "ffmpeg",
                 "-i",
-                temp_128kbps_file,
+                args.audio_file,
                 "-ar",
-                "16000",  # Osiguraj da je sample rate 16000 Hz
+                "16000",
                 "-ac",
-                "1",  # Osiguraj mono kanal
+                "1",
                 "-c:a",
-                "pcm_s16le",  # Formatiraj u standardni WAV
+                "pcm_s16le",
                 temp_wav_file,
-            ]
+            ],
+            check=True,
+            capture_output=True,
         )
 
         segments, num_speakers, language = speech_to_text(
