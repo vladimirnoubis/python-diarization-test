@@ -119,6 +119,8 @@ def speech_to_text(
             "end": segment["end"],
             "text": segment["text"],
             "speaker": speaker,
+            "duration": segment["end"] - segment["start"],
+            "segment_id": str(uuid.uuid4()),
         }
         final_segments.append(new_segment)
 
@@ -214,23 +216,6 @@ def main():
         )
         original_audio_file = args.audio_file
         temp_128kbps_file = "temp_standardized.mp3"
-
-        # # Naredba za prvi korak
-        # subprocess.run(
-        #     [
-        #         "ffmpeg",
-        #         "-i",
-        #         original_audio_file,
-        #         "-b:a",
-        #         "128k",  # Forsiraj audio bitrate na 128 kbps
-        #         "-ar",
-        #         "16000",  # Postavi sample rate na 16000 Hz
-        #         "-ac",
-        #         "1",  # Postavi mono kanal
-        #         "-y",  # Prepiši fajl ako postoji
-        #         temp_128kbps_file,
-        #     ]
-        # )
 
         subprocess.run(
             [
