@@ -80,7 +80,7 @@ def speech_to_text(
     print("Početak spajanja rezultata...")
 
     diarize_segments = []
-    for turn, speaker in diarization.speaker_diarization:
+    for turn, speaker in diarization.exlusive_speaker_diarization:
         diarize_segments.append(
             {"start": turn.start, "end": turn.end, "speaker": speaker}
         )
